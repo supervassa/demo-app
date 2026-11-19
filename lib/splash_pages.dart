@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class SplashPages extends StatefulWidget {
@@ -15,7 +16,6 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _animationController = AnimationController(
@@ -27,19 +27,25 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
       reverse: true
     );
 
-    _animationController.forward().whenComplete(() {
-      Navigator.pushReplacementNamed(context, "/login");
-    });
+    _animationController.forward().whenComplete(() async {
+      final pref = await SharedPreferences.getInstance();
+      final bool IsLoggedIn = pref.getBool('is_logged_in') ?? false;
 
-    // Timer(
-    //   const Duration(seconds: 5),
-    //   () => Navigator.pushReplacementNamed(context, "/login"),
-    // );
+      if (!mounted) return; // memastikan widget aktif
+
+      if (IsLoggedIn) {
+        //jika true ke home
+        Navigator.pushReplacementNamed(context, "/home");
+      } else {
+        // jika false ke halaman login
+        Navigator.pushReplacementNamed(context, "/login");
+      }
+
+    });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _animationController.dispose();
   }
@@ -50,18 +56,29 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("INi Splash Screen"),
+            Text("SELAMAT DATANG KEMBALI di \nSIAKAD POLMAIN", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20), textAlign: TextAlign.center,),
             SizedBox(height: 10,),
-            LinearProgressIndicator(
-              value: _animationController.value,
-              minHeight: 7,
-              borderRadius: BorderRadius.circular(8),
-              backgroundColor: Colors.blueGrey.shade300,
-              color: Colors.blueAccent,
-            )
+            Container(
+              margin: EdgeInsets.all(8),
+              height: 100,
+              width: 100,
+              child: Image.network("https://play-lh.googleusercontent.com/_wCvAIKdFwlZnhz6nDydxijbgT1UJqb0weTWL-uNd9-D7vcqufazebv_ZHX-S10nPA2krQoAKZovEY5K9TfECw"),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              margin: EdgeInsets.all(8),
+              child: LinearProgressIndicator(
+                value: _animationController.value,
+                minHeight: 7,
+                borderRadius: BorderRadius.circular(8),
+                backgroundColor: Colors.blueGrey.shade300,
+                color: Colors.deepOrangeAccent,
+              ),
+            ),
+            Text("Versi App 1.0", style: TextStyle(fontWeight: FontWeight.w200, fontSize: 14),),
           ],
         ),
       ),
