@@ -11,36 +11,27 @@ class SplashPages extends StatefulWidget {
   State<SplashPages> createState() => _SplashPagesState();
 }
 
-class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin{
+class _SplashPagesState extends State<SplashPages>
+    with TickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 5),
-    )..addListener(() {
-      setState(() {});
-    })..repeat(
-      reverse: true
-    );
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 5))
+          ..addListener(() {
+            setState(() {});
+          })
+          ..repeat(reverse: true);
 
     _animationController.forward().whenComplete(() async {
       final pref = await SharedPreferences.getInstance();
-      final bool IsLoggedIn = pref.getBool('is_logged_in') ?? false;
+      final IsLoggedIn = pref.getBool('is_logged_in') ?? false;
 
       if (!mounted) return; // memastikan widget aktif
-
-      if (IsLoggedIn) {
-        //jika true ke home
-        Navigator.pushReplacementNamed(context, "/home");
-      } else {
-        // jika false ke halaman login
-        Navigator.pushReplacementNamed(context, "/login");
-      }
-
+      Navigator.pushReplacementNamed(context, IsLoggedIn ? '/home' : '/login');
     });
   }
 
@@ -59,15 +50,27 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("SELAMAT DATANG KEMBALI di \nSIAKAD POLMAIN", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20), textAlign: TextAlign.center,),
-            SizedBox(height: 10,),
+            Text(
+              "SELAMAT DATANG KEMBALI di \nSIAKAD POLMAIN",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            // Container(
+            //   margin: EdgeInsets.all(8),
+            //   height: 100,
+            //   width: 100,
+            //   child: Image.network(
+            //     "https://play-lh.googleusercontent.com/_wCvAIKdFwlZnhz6nDydxijbgT1UJqb0weTWL-uNd9-D7vcqufazebv_ZHX-S10nPA2krQoAKZovEY5K9TfECw",
+            //   ),
+            // ),
             Container(
               margin: EdgeInsets.all(8),
               height: 100,
               width: 100,
-              child: Image.network("https://play-lh.googleusercontent.com/_wCvAIKdFwlZnhz6nDydxijbgT1UJqb0weTWL-uNd9-D7vcqufazebv_ZHX-S10nPA2krQoAKZovEY5K9TfECw"),
+              child: Image.asset('assets/logo_polmain.png'),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Container(
               margin: EdgeInsets.all(8),
               child: LinearProgressIndicator(
@@ -78,7 +81,10 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
                 color: Colors.deepOrangeAccent,
               ),
             ),
-            Text("Versi App 1.0", style: TextStyle(fontWeight: FontWeight.w200, fontSize: 14),),
+            Text(
+              "Versi App 1.0",
+              style: TextStyle(fontWeight: FontWeight.w200, fontSize: 14),
+            ),
           ],
         ),
       ),

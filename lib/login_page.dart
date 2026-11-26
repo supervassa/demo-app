@@ -43,13 +43,19 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Text("SIAKAD POLMAIN", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
             SizedBox(height: 10,),
+            // Container(
+            //   margin: EdgeInsets.all(8),
+            //   height: 100,
+            //   width: 100,
+            //   child: Image.network("https://play-lh.googleusercontent.com/_wCvAIKdFwlZnhz6nDydxijbgT1UJqb0weTWL-uNd9-D7vcqufazebv_ZHX-S10nPA2krQoAKZovEY5K9TfECw"),
+            // ),
             Container(
               margin: EdgeInsets.all(8),
-              height: 100,
-              width: 100,
-              child: Image.network("https://play-lh.googleusercontent.com/_wCvAIKdFwlZnhz6nDydxijbgT1UJqb0weTWL-uNd9-D7vcqufazebv_ZHX-S10nPA2krQoAKZovEY5K9TfECw"),
+              height: 120,
+              width: 120,
+              child: Image.asset('assets/logo_polmain.png'),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 32,),
             Textfieldwidget(
               nameController: _usernameController,
               hintText: "Username",
